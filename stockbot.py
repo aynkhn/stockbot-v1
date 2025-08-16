@@ -14,6 +14,6 @@ df = df.drop(['Open', 'Low', 'Close', 'Volume', 'Dividends', 'Stock Splits'], ax
 df['MA5'] = df.rolling(window=5)['Price'].mean()
 df['MA20'] = df.rolling(window=20)['Price'].mean()
 df['MADF'] = df['MA5'] - df['MA20']
- 
+
 
 print(df)
