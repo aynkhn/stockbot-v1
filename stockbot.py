@@ -15,5 +15,8 @@ df['MA5'] = df.rolling(window=5)['Price'].mean()
 df['MA20'] = df.rolling(window=20)['Price'].mean()
 df['MADF'] = df['MA5'] - df['MA20']
 
+dfx = df[['MA5', 'MA20', 'MADF']]
+dfy = df['Price'].shift(-1)
+
 
 print(df)
