@@ -13,4 +13,7 @@ df = pd.DataFrame(msft_history)
 df = df.drop(['Open', 'Low', 'Close', 'Volume', 'Dividends', 'Stock Splits'], axis=1).rename(columns={'High': 'Price'})
 df['MA5'] = df.rolling(window=5)['Price'].mean()
 df['MA20'] = df.rolling(window=20)['Price'].mean()
+df['MADF'] = df['MA5'] - df['MA20']
  
+
+print(df)
