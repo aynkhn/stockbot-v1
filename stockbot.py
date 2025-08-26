@@ -8,7 +8,7 @@ import yfinance as yf
 ticker = 'MSFT' # interchangable
 
 def df_actions(df):
-    df = df[['High']] # drop everything but high values
+    df = df[['High']].copy() # drop everything but high values
     df['MA5'] = df['High'].rolling(window=5).mean() # MA's
     df['MA20'] = df['High'].rolling(window=20).mean()
     df['MADF'] = df['MA5'] - df['MA20'] # MA difference
@@ -31,19 +31,26 @@ LR = LinearRegression() # blank regression LR
 LR.fit(x_train, y_train) # fit LR to data
 
 ## TEST AND DISPLAY ##
-y_pred = LR.predict(x_test) # run test data
-plt.scatter(y_test, y_pred, color='blue', label='Predicted vs Actual')
-lo = min(y_test.min(), y_pred.min())
-hi = max(y_test.max(), y_pred.max())
-plt.plot([lo, hi], [lo, hi], color='red', lw=2, label='Ideal: y = x')
-coeffs = np.polyfit(y_test, y_pred, 1)  # slope & intercept
-fit_line = np.poly1d(coeffs)
-plt.plot([lo, hi], fit_line([lo, hi]), color='green', lw=2, label='Best Fit')
-plt.xlabel("Actual Price")
-plt.ylabel("Predicted Price")
-plt.title("Regression Predictions")
-plt.legend()
-plt.show()
-print("Coefficients:", LR.coef_) # testing
-print("Intercept:", LR.intercept_)
-print("R² score:", LR.score(x_test, y_test))
+# y_pred = LR.predict(x_test) # run test data
+# plt.scatter(y_test, y_pred, color='blue', label='Predicted vs Actual')
+# lo = min(y_test.min(), y_pred.min())
+# hi = max(y_test.max(), y_pred.max())
+# plt.plot([lo, hi], [lo, hi], color='red', lw=2, label='Ideal: y = x')
+# coeffs = np.polyfit(y_test, y_pred, 1)  # slope & intercept
+# fit_line = np.poly1d(coeffs)
+# plt.plot([lo, hi], fit_line([lo, hi]), color='green', lw=2, label='Best Fit')
+# plt.xlabel("Actual Price")
+# plt.ylabel("Predicted Price")
+# plt.title("Regression Predictions")
+# plt.legend()
+# plt.show()
+# print("Coefficients:", LR.coef_) # testing
+# print("Intercept:", LR.intercept_)
+# print("R² score:", LR.score(x_test, y_test))
+
+latest = ticker.history(period='1mo')
+df_latest = df_actions(latest)
+today_features = df_latest[['MA5','MA20','MADF']].tail(1)
+predicted_price = LR.predict(today_features)
+print("Predicted High Price for tomorrow:", predicted_price[0])
+
