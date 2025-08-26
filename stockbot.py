@@ -32,11 +32,16 @@ LR.fit(x_train, y_train) # fit LR to data
 
 ## TEST AND DISPLAY ##
 y_pred = LR.predict(x_test) # run test data
-plt.scatter(y_test, y_pred, color='blue', label='Test Data')
-plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', lw=2, label='Regression')
+plt.scatter(y_test, y_pred, color='blue', label='Predicted vs Actual')
+lo = min(y_test.min(), y_pred.min())
+hi = max(y_test.max(), y_pred.max())
+plt.plot([lo, hi], [lo, hi], color='red', lw=2, label='Ideal: y = x')
+coeffs = np.polyfit(y_test, y_pred, 1)  # slope & intercept
+fit_line = np.poly1d(coeffs)
+plt.plot([lo, hi], fit_line([lo, hi]), color='green', lw=2, label='Best Fit')
 plt.xlabel("Actual Price")
 plt.ylabel("Predicted Price")
-plt.title("Ideal y = x")
+plt.title("Regression Predictions")
 plt.legend()
 plt.show()
 print("Coefficients:", LR.coef_) # testing
