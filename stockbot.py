@@ -36,7 +36,7 @@ plt.scatter(y_test, y_pred, color='blue', label='Test Data')
 plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color='red', lw=2, label='Regression')
 plt.xlabel("Actual Price")
 plt.ylabel("Predicted Price")
-plt.title("Linear Regression Predictions")
+plt.title("Ideal y = x")
 plt.legend()
 plt.show()
 print("Coefficients:", LR.coef_) # testing
